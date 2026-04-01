@@ -1,0 +1,26 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: SonarQubePrepare@8
+  inputs:
+    SonarQube: 'Sonar-Connection'
+    scannerMode: 'cli'
+    cliScannerVersion: '8.0.1.6346'
+    configMode: 'file'
+
+# 2. Build your npm project
+- script: |
+    npm install
+  displayName: 'npm install'
+
+# 3. Run Analysis- task: SonarQubeAnalyze@8
+  inputs:
+    jdkversion: 'JAVA_HOME_21_X64'
+
+- task: SonarQubePublish@8
+  inputs:
+    pollingTimeoutSec: '300'
