@@ -24,6 +24,6 @@ steps:
   displayName: 'Run SonarQube Analysis'
 
 # 4. Push Results
-- task: SonarQubePublish@5
+- task: SonarQubePublish@8
   inputs:
     pollingTimeoutSec: '300'
