@@ -1,0 +1,29 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+# 1. Prepare SonarQube
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'Sonar-Connection' # The name of your Sonar service connection
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'your_sonar_project_key'
+    cliSources: '.'
+
+# 2. Build your npm project
+- script: |
+    npm install
+  displayName: 'npm install'
+
+# 3. Run Analysis
+- task: SonarQubeAnalyze@5
+  displayName: 'Run SonarQube Analysis'
+
+# 4. Push Results
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
